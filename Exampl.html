@@ -1,0 +1,1111 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VRN AVTO PRO - Привоз автомобилей из Китая, Японии и Кореи</title>
+    <style>
+        :root {
+            --primary: #1a365d;
+            --secondary: #2d3748;
+            --accent: #e53e3e;
+            --light: #f7fafc;
+            --dark: #2d3748;
+            --gray: #a0aec0;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: url('obl.jpg') no-repeat center center fixed;
+            background-size: cover;
+            color: var(--dark);
+            line-height: 1.6;
+            position: relative;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.85);
+            z-index: -1;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header */
+        header {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 1rem 0;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+        }
+
+        .logo span {
+            color: var(--accent);
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+
+        nav ul li {
+            margin-left: 2rem;
+        }
+
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        nav ul li a:hover {
+            color: var(--accent);
+        }
+
+        /* Hero Section */
+        .hero {
+            background: url('hero-bg.jpg') no-repeat center center/cover;
+            height: 500px;
+            display: flex;
+            align-items: center;
+            position: relative;
+            margin: 20px 0;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            color: white;
+            max-width: 600px;
+            padding: 0 20px;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+        }
+
+        .btn {
+            display: inline-block;
+            background: var(--accent);
+            color: white;
+            padding: 12px 30px;
+            border: none;
+            border-radius: 4px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.3s;
+            text-decoration: none;
+        }
+
+        .btn:hover {
+            background: #c53030;
+        }
+
+        .btn-secondary {
+            background: var(--primary);
+        }
+
+        .btn-secondary:hover {
+            background: #2d3748;
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        /* Cars Section */
+        .section-title {
+            text-align: center;
+            margin: 3rem 0 2rem;
+            font-size: 2.2rem;
+            color: var(--primary);
+        }
+
+        .section-subtitle {
+            text-align: center;
+            margin-bottom: 2rem;
+            font-size: 1.2rem;
+            color: var(--secondary);
+        }
+
+        .cars-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 4rem;
+        }
+
+        .car-card {
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s;
+            cursor: pointer;
+        }
+
+        .car-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .car-image {
+            height: 200px;
+            width: 100%;
+            object-fit: cover;
+        }
+
+        .car-info {
+            padding: 1.5rem;
+        }
+
+        .car-title {
+            font-size: 1.4rem;
+            margin-bottom: 0.5rem;
+            color: var(--primary);
+        }
+
+        .car-price {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: var(--accent);
+            margin-bottom: 1rem;
+        }
+
+        .car-features {
+            list-style: none;
+            margin-bottom: 1rem;
+        }
+
+        .car-features li {
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+        }
+
+        .car-features li::before {
+            content: '•';
+            color: var(--accent);
+            font-weight: bold;
+            margin-right: 0.5rem;
+        }
+
+        .car-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .car-actions .btn {
+            flex: 1;
+            text-align: center;
+        }
+
+        /* Car Detail Page Styles */
+        .car-detail-page {
+            display: none;
+            padding: 2rem 0;
+        }
+
+        .back-button {
+            display: inline-flex;
+            align-items: center;
+            margin-bottom: 2rem;
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .back-button:hover {
+            color: var(--accent);
+        }
+
+        .car-detail-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 2rem;
+        }
+
+        .car-detail-title {
+            font-size: 2.5rem;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .car-detail-price {
+            font-size: 2rem;
+            font-weight: bold;
+            color: var(--accent);
+        }
+
+        .car-media {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .car-main-image {
+            width: 100%;
+            height: 400px;
+            object-fit: cover;
+            border-radius: 8px;
+        }
+
+        .car-gallery {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        .car-gallery img {
+            width: 100%;
+            height: 120px;
+            object-fit: cover;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+
+        .car-gallery img:hover {
+            transform: scale(1.05);
+        }
+
+        .car-video {
+            margin-top: 2rem;
+        }
+
+        .car-video video {
+            width: 100%;
+            border-radius: 8px;
+        }
+
+        .car-details {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+        }
+
+        .car-specs, .car-description {
+            background: white;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .car-specs h3, .car-description h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+            color: var(--primary);
+            border-bottom: 2px solid var(--accent);
+            padding-bottom: 0.5rem;
+        }
+
+        .specs-list {
+            list-style: none;
+        }
+
+        .specs-list li {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.8rem 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .specs-list li:last-child {
+            border-bottom: none;
+        }
+
+        .spec-name {
+            font-weight: 500;
+        }
+
+        .spec-value {
+            color: var(--secondary);
+        }
+
+        .seller-description {
+            line-height: 1.8;
+        }
+
+        .car-contact {
+            margin-top: 2rem;
+            text-align: center;
+        }
+
+        /* Calculator Section */
+        .calculator {
+            background: white;
+            border-radius: 8px;
+            padding: 2rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            margin-bottom: 4rem;
+        }
+
+        .calculator h2 {
+            text-align: center;
+            margin-bottom: 2rem;
+            color: var(--primary);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid var(--gray);
+            border-radius: 4px;
+            font-size: 1rem;
+        }
+
+        .calculator-result {
+            background: var(--light);
+            padding: 1.5rem;
+            border-radius: 4px;
+            margin-top: 1.5rem;
+            text-align: center;
+        }
+
+        .result-value {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: var(--accent);
+            margin: 1rem 0;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--primary);
+            color: white;
+            padding: 3rem 0 2rem;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-column h3 {
+            font-size: 1.4rem;
+            margin-bottom: 1.5rem;
+            color: var(--accent);
+        }
+
+        .footer-column ul {
+            list-style: none;
+        }
+
+        .footer-column ul li {
+            margin-bottom: 0.8rem;
+        }
+
+        .footer-column ul li a {
+            color: var(--light);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-column ul li a:hover {
+            color: var(--accent);
+        }
+
+        .contact-phone {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin: 10px 0;
+            color: var(--accent);
+        }
+
+        .contact-name {
+            font-size: 1.2rem;
+            margin-bottom: 15px;
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            nav ul {
+                margin-top: 1rem;
+                justify-content: center;
+            }
+
+            nav ul li {
+                margin: 0 1rem;
+            }
+
+            .hero h1 {
+                font-size: 2.2rem;
+            }
+
+            .section-title {
+                font-size: 1.8rem;
+            }
+
+            .btn-group {
+                flex-direction: column;
+            }
+
+            .car-actions {
+                flex-direction: column;
+            }
+
+            .car-media {
+                grid-template-columns: 1fr;
+            }
+
+            .car-details {
+                grid-template-columns: 1fr;
+            }
+
+            .car-detail-header {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+<!-- Header -->
+<header>
+    <div class="container">
+        <div class="header-content">
+            <div class="logo">VRN <span>AVTO PRO</span></div>
+            <nav>
+                <ul>
+                    <li><a href="#available">Авто в наличии</a></li>
+                    <li><a href="#cars">Популярные модели</a></li>
+                    <li><a href="#calculator">Калькулятор</a></li>
+                    <li><a href="#contacts">Контакты</a></li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+</header>
+
+<!-- Main Content -->
+<div id="main-content">
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <h1>Привоз автомобилей из Китая, Японии и Кореи</h1>
+                <p>Профессиональный подбор, доставка и растаможка автомобилей с гарантией и полным сопровождением</p>
+                <div class="btn-group">
+                    <a href="#contacts" class="btn">Заказать автомобиль</a>
+                    <a href="#calculator" class="btn btn-secondary">Рассчитать стоимость</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Available Cars Section -->
+    <section id="available" class="container">
+        <h2 class="section-title">Автомобили в наличии</h2>
+        <p class="section-subtitle">Готовы к выдаче в Воронеже</p>
+        <div class="cars-grid">
+            <!-- Available Car 1 -->
+            <div class="car-card" onclick="showCarDetail('toyota-camry')">
+                <img src="car-available1.jpg" alt="Toyota Camry 2022" class="car-image">
+                <div class="car-info">
+                    <h3 class="car-title">Toyota Camry 2022</h3>
+                    <div class="car-price">2 890 000 ₽</div>
+                    <ul class="car-features">
+                        <li>Двигатель: 2.5L (181 л.с.)</li>
+                        <li>Коробка: автомат</li>
+                        <li>Пробег: 12 000 км</li>
+                        <li>Состояние: отличное</li>
+                    </ul>
+                    <div class="car-actions">
+                        <a href="#contacts" class="btn">Заказать</a>
+                        <button class="btn btn-secondary">Подробнее</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Available Car 2 -->
+            <div class="car-card" onclick="showCarDetail('kia-k5')">
+                <img src="car-available2.jpg" alt="Kia K5 2021" class="car-image">
+                <div class="car-info">
+                    <h3 class="car-title">Kia K5 2021</h3>
+                    <div class="car-price">2 450 000 ₽</div>
+                    <ul class="car-features">
+                        <li>Двигатель: 2.0L (156 л.с.)</li>
+                        <li>Коробка: автомат</li>
+                        <li>Пробег: 18 500 км</li>
+                        <li>Состояние: отличное</li>
+                    </ul>
+                    <div class="car-actions">
+                        <a href="#contacts" class="btn">Заказать</a>
+                        <button class="btn btn-secondary">Подробнее</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Available Car 3 -->
+            <div class="car-card" onclick="showCarDetail('haval-f7')">
+                <img src="car-available3.jpg" alt="Haval F7 2022" class="car-image">
+                <div class="car-info">
+                    <h3 class="car-title">Haval F7 2022</h3>
+                    <div class="car-price">2 650 000 ₽</div>
+                    <ul class="car-features">
+                        <li>Двигатель: 2.0L Turbo (190 л.с.)</li>
+                        <li>Коробка: автомат</li>
+                        <li>Пробег: 9 000 км</li>
+                        <li>Состояние: идеальное</li>
+                    </ul>
+                    <div class="car-actions">
+                        <a href="#contacts" class="btn">Заказать</a>
+                        <button class="btn btn-secondary">Подробнее</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Cars Section -->
+    <section id="cars" class="container">
+        <h2 class="section-title">Популярные модели</h2>
+        <p class="section-subtitle">Под заказ из Китая, Японии и Кореи</p>
+        <div class="cars-grid">
+            <!-- Car 1 -->
+            <div class="car-card" onclick="showCarDetail('chery-tiggo8')">
+                <img src="car1.jpg" alt="Chery Tiggo 8 Pro" class="car-image">
+                <div class="car-info">
+                    <h3 class="car-title">Chery Tiggo 8 Pro</h3>
+                    <div class="car-price">от 3 450 000 ₽</div>
+                    <ul class="car-features">
+                        <li>Двигатель: 1.6L Turbo (197 л.с.)</li>
+                        <li>Коробка: 7-ст. робот</li>
+                        <li>Привод: полный</li>
+                        <li>Год: 2023</li>
+                    </ul>
+                    <div class="car-actions">
+                        <a href="#contacts" class="btn">Заказать</a>
+                        <button class="btn btn-secondary">Подробнее</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Car 2 -->
+            <div class="car-card" onclick="showCarDetail('haval-jolion')">
+                <img src="car2.jpg" alt="Haval Jolion" class="car-image">
+                <div class="car-info">
+                    <h3 class="car-title">Haval Jolion</h3>
+                    <div class="car-price">от 2 150 000 ₽</div>
+                    <ul class="car-features">
+                        <li>Двигатель: 1.5L Turbo (150 л.с.)</li>
+                        <li>Коробка: вариатор</li>
+                        <li>Привод: передний</li>
+                        <li>Год: 2023</li>
+                    </ul>
+                    <div class="car-actions">
+                        <a href="#contacts" class="btn">Заказать</a>
+                        <button class="btn btn-secondary">Подробнее</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Car 3 -->
+            <div class="car-card" onclick="showCarDetail('geely-coolray')">
+                <img src="car3.jpg" alt="Geely Coolray" class="car-image">
+                <div class="car-info">
+                    <h3 class="car-title">Geely Coolray</h3>
+                    <div class="car-price">от 2 350 000 ₽</div>
+                    <ul class="car-features">
+                        <li>Двигатель: 1.5L Turbo (177 л.с.)</li>
+                        <li>Коробка: 7-ст. робот</li>
+                        <li>Привод: передний</li>
+                        <li>Год: 2023</li>
+                    </ul>
+                    <div class="car-actions">
+                        <a href="#contacts" class="btn">Заказать</a>
+                        <button class="btn btn-secondary">Подробнее</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Calculator Section -->
+    <section id="calculator" class="container">
+        <h2 class="section-title">Калькулятор стоимости</h2>
+        <div class="calculator">
+            <h2>Рассчитайте стоимость автомобиля под ключ</h2>
+            <form id="costCalculator">
+                <div class="form-group">
+                    <label for="carModel">Модель автомобиля</label>
+                    <select id="carModel" class="form-control">
+                        <option value="tiggo8">Chery Tiggo 8 Pro</option>
+                        <option value="jolion">Haval Jolion</option>
+                        <option value="coolray">Geely Coolray</option>
+                        <option value="camry">Toyota Camry</option>
+                        <option value="kia">Kia K5</option>
+                        <option value="other">Другая модель</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="carPrice">Стоимость автомобиля (¥, ¥, ₩)</label>
+                    <input type="number" id="carPrice" class="form-control" placeholder="Введите стоимость в валюте страны происхождения">
+                </div>
+
+                <div class="form-group">
+                    <label for="country">Страна происхождения</label>
+                    <select id="country" class="form-control">
+                        <option value="china">Китай</option>
+                        <option value="japan">Япония</option>
+                        <option value="korea">Корея</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="engineType">Тип двигателя</label>
+                    <select id="engineType" class="form-control">
+                        <option value="electric">Электромобиль</option>
+                        <option value="petrol1">Бензин до 1000 см³</option>
+                        <option value="petrol2">Бензин 1000-2000 см³</option>
+                        <option value="petrol3">Бензин 2000-3000 см³</option>
+                        <option value="diesel">Дизель</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="year">Год выпуска</label>
+                    <select id="year" class="form-control">
+                        <option value="2023">2023</option>
+                        <option value="2022">2022</option>
+                        <option value="2021">2021</option>
+                        <option value="2020">2020</option>
+                    </select>
+                </div>
+
+                <button type="button" id="calculateBtn" class="btn" style="width: 100%;">Рассчитать стоимость</button>
+
+                <div class="calculator-result" id="result" style="display: none;">
+                    <h3>Итоговая стоимость:</h3>
+                    <div class="result-value" id="totalCost">0 ₽</div>
+                    <p>В стоимость включены: таможенные пошлины, доставка, растаможка и оформление</p>
+                    <a href="#contacts" class="btn" style="margin-top: 15px;">Заказать этот автомобиль</a>
+                </div>
+            </form>
+        </div>
+    </section>
+</div>
+
+<!-- Car Detail Pages -->
+<div id="car-detail-pages">
+    <!-- Toyota Camry Detail Page -->
+    <div id="toyota-camry" class="car-detail-page">
+        <div class="container">
+            <a href="#" class="back-button" onclick="hideCarDetail()">&larr; Назад к каталогу</a>
+
+            <div class="car-detail-header">
+                <div>
+                    <h1 class="car-detail-title">Toyota Camry 2022</h1>
+                    <p>Страна: Япония | Пробег: 12 000 км | Состояние: отличное</p>
+                </div>
+                <div class="car-detail-price">2 890 000 ₽</div>
+            </div>
+
+            <div class="car-media">
+                <div>
+                    <img src="car-available1.jpg" alt="Toyota Camry" class="car-main-image" id="toyota-main-img">
+                    <div class="car-gallery">
+                        <img src="car-available1.jpg" alt="Toyota Camry вид 1" onclick="changeMainImage('car-available1.jpg', 'toyota-main-img')">
+                        <img src="toyota-camry-2.jpg" alt="Toyota Camry вид 2" onclick="changeMainImage('toyota-camry-2.jpg', 'toyota-main-img')">
+                        <img src="toyota-camry-3.jpg" alt="Toyota Camry вид 3" onclick="changeMainImage('toyota-camry-3.jpg', 'toyota-main-img')">
+                        <img src="toyota-camry-4.jpg" alt="Toyota Camry вид 4" onclick="changeMainImage('toyota-camry-4.jpg', 'toyota-main-img')">
+                    </div>
+                </div>
+                <div class="car-video">
+                    <!-- Исправленное видео для Toyota Camry -->
+                    <video controls>
+                        <source src="https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerJoyrides.mp4" type="video/mp4">
+                        Ваш браузер не поддерживает видео тег.
+                    </video>
+                </div>
+            </div>
+
+            <div class="car-details">
+                <div class="car-specs">
+                    <h3>Характеристики</h3>
+                    <ul class="specs-list">
+                        <li><span class="spec-name">Марка</span><span class="spec-value">Toyota</span></li>
+                        <li><span class="spec-name">Модель</span><span class="spec-value">Camry</span></li>
+                        <li><span class="spec-name">Год выпуска</span><span class="spec-value">2022</span></li>
+                        <li><span class="spec-name">Пробег</span><span class="spec-value">12 000 км</span></li>
+                        <li><span class="spec-name">Двигатель</span><span class="spec-value">2.5L (181 л.с.)</span></li>
+                        <li><span class="spec-name">Коробка передач</span><span class="spec-value">Автоматическая</span></li>
+                        <li><span class="spec-name">Привод</span><span class="spec-value">Передний</span></li>
+                        <li><span class="spec-name">Тип кузова</span><span class="spec-value">Седан</span></li>
+                        <li><span class="spec-name">Цвет</span><span class="spec-value">Серебристый металлик</span></li>
+                        <li><span class="spec-name">Расход топлива</span><span class="spec-value">7.8 л/100км</span></li>
+                        <li><span class="spec-name">Объем багажника</span><span class="spec-value">524 л</span></li>
+                    </ul>
+                </div>
+
+                <div class="car-description">
+                    <h3>Описание от продавца</h3>
+                    <div class="seller-description">
+                        <p>Представляем вашему вниманию Toyota Camry 2022 года в отличном состоянии. Автомобиль пригнан из Японии, полностью обслужен и готов к эксплуатации.</p>
+                        <p>Машина имеет богатую комплектацию: кожаный салон, климат-контроль, мультимедийная система с большим экраном, камера заднего вида, датчики парковки, круиз-контроль и многое другое.</p>
+                        <p>Пробег всего 12 000 км - автомобиль практически новый. Все ТО проведено вовремя, технически автомобиль абсолютно исправен. Никаких ДТП и повреждений кузова.</p>
+                        <p>Идеальный вариант для тех, кто ценит комфорт, надежность и стиль. Отличная экономичность и плавность хода делают эту модель одной из лучших в своем классе.</p>
+                    </div>
+
+                    <div class="car-contact">
+                        <a href="#contacts" class="btn">Заказать этот автомобиль</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Kia K5 Detail Page -->
+    <div id="kia-k5" class="car-detail-page">
+        <div class="container">
+            <a href="#" class="back-button" onclick="hideCarDetail()">&larr; Назад к каталогу</a>
+
+            <div class="car-detail-header">
+                <div>
+                    <h1 class="car-detail-title">Kia K5 2021</h1>
+                    <p>Страна: Корея | Пробег: 18 500 км | Состояние: отличное</p>
+                </div>
+                <div class="car-detail-price">2 450 000 ₽</div>
+            </div>
+
+            <div class="car-media">
+                <div>
+                    <img src="car-available2.jpg" alt="Kia K5" class="car-main-image" id="kia-main-img">
+                    <div class="car-gallery">
+                        <img src="car-available2.jpg" alt="Kia K5 вид 1" onclick="changeMainImage('car-available2.jpg', 'kia-main-img')">
+                        <img src="kia-k5-2.jpg" alt="Kia K5 вид 2" onclick="changeMainImage('kia-k5-2.jpg', 'kia-main-img')">
+                        <img src="kia-k5-3.jpg" alt="Kia K5 вид 3" onclick="changeMainImage('kia-k5-3.jpg', 'kia-main-img')">
+                        <img src="kia-k5-4.jpg" alt="Kia K5 вид 4" onclick="changeMainImage('kia-k5-4.jpg', 'kia-main-img')">
+                    </div>
+                </div>
+                <div class="car-video">
+                    <video controls>
+                        <source src="https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4" type="video/mp4">
+                        Ваш браузер не поддерживает видео тег.
+                    </video>
+                </div>
+            </div>
+
+            <div class="car-details">
+                <div class="car-specs">
+                    <h3>Характеристики</h3>
+                    <ul class="specs-list">
+                        <li><span class="spec-name">Марка</span><span class="spec-value">Kia</span></li>
+                        <li><span class="spec-name">Модель</span><span class="spec-value">K5</span></li>
+                        <li><span class="spec-name">Год выпуска</span><span class="spec-value">2021</span></li>
+                        <li><span class="spec-name">Пробег</span><span class="spec-value">18 500 км</span></li>
+                        <li><span class="spec-name">Двигатель</span><span class="spec-value">2.0L (156 л.с.)</span></li>
+                        <li><span class="spec-name">Коробка передач</span><span class="spec-value">Автоматическая</span></li>
+                        <li><span class="spec-name">Привод</span><span class="spec-value">Передний</span></li>
+                        <li><span class="spec-name">Тип кузова</span><span class="spec-value">Седан</span></li>
+                        <li><span class="spec-name">Цвет</span><span class="spec-value">Белый перламутр</span></li>
+                        <li><span class="spec-name">Расход топлива</span><span class="spec-value">7.5 л/100км</span></li>
+                        <li><span class="spec-name">Объем багажника</span><span class="spec-value">510 л</span></li>
+                    </ul>
+                </div>
+
+                <div class="car-description">
+                    <h3>Описание от продавца</h3>
+                    <div class="seller-description">
+                        <p>Kia K5 2021 года - стильный и современный седан корейского производства. Автомобиль пригнан из Кореи, имеет полную историю обслуживания и находится в отличном техническом состоянии.</p>
+                        <p>Комплектация включает: кожаную отделку салона, двухзонный климат-контроль, мультимедийную систему с сенсорным экраном, камеру кругового обзора, систему помощи при парковке, адаптивный круиз-контроль и множество других опций.</p>
+                        <p>Пробег составляет 18 500 км - автомобиль использовался аккуратно. Все плановые технические обслуживания проведены своевременно. Кузов без повреждений и коррозии.</p>
+                        <p>Kia K5 сочетает в себе элегантный дизайн, комфорт и надежность. Отличный выбор для городской эксплуатации и дальних поездок.</p>
+                    </div>
+
+                    <div class="car-contact">
+                        <a href="#contacts" class="btn">Заказать этот автомобиль</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Haval F7 Detail Page -->
+    <div id="haval-f7" class="car-detail-page">
+        <div class="container">
+            <a href="#" class="back-button" onclick="hideCarDetail()">&larr; Назад к каталогу</a>
+
+            <div class="car-detail-header">
+                <div>
+                    <h1 class="car-detail-title">Haval F7 2022</h1>
+                    <p>Страна: Китай | Пробег: 9 000 км | Состояние: идеальное</p>
+                </div>
+                <div class="car-detail-price">2 650 000 ₽</div>
+            </div>
+
+            <div class="car-media">
+                <div>
+                    <img src="car-available3.jpg" alt="Haval F7" class="car-main-image" id="haval-main-img">
+                    <div class="car-gallery">
+                        <img src="car-available3.jpg" alt="Haval F7 вид 1" onclick="changeMainImage('car-available3.jpg', 'haval-main-img')">
+                        <img src="haval-f7-2.jpg" alt="Haval F7 вид 2" onclick="changeMainImage('haval-f7-2.jpg', 'haval-main-img')">
+                        <img src="haval-f7-3.jpg" alt="Haval F7 вид 3" onclick="changeMainImage('haval-f7-3.jpg', 'haval-main-img')">
+                        <img src="haval-f7-4.jpg" alt="Haval F7 вид 4" onclick="changeMainImage('haval-f7-4.jpg', 'haval-main-img')">
+                    </div>
+                </div>
+                <div class="car-video">
+                    <video controls>
+                        <source src="https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4" type="video/mp4">
+                        Ваш браузер не поддерживает видео тег.
+                    </video>
+                </div>
+            </div>
+
+            <div class="car-details">
+                <div class="car-specs">
+                    <h3>Характеристики</h3>
+                    <ul class="specs-list">
+                        <li><span class="spec-name">Марка</span><span class="spec-value">Haval</span></li>
+                        <li><span class="spec-name">Модель</span><span class="spec-value">F7</span></li>
+                        <li><span class="spec-name">Год выпуска</span><span class="spec-value">2022</span></li>
+                        <li><span class="spec-name">Пробег</span><span class="spec-value">9 000 км</span></li>
+                        <li><span class="spec-name">Двигатель</span><span class="spec-value">2.0L Turbo (190 л.с.)</span></li>
+                        <li><span class="spec-name">Коробка передач</span><span class="spec-value">Автоматическая (7-ст.)</span></li>
+                        <li><span class="spec-name">Привод</span><span class="spec-value">Полный</span></li>
+                        <li><span class="spec-name">Тип кузова</span><span class="spec-value">Кроссовер</span></li>
+                        <li><span class="spec-name">Цвет</span><span class="spec-value">Синий металлик</span></li>
+                        <li><span class="spec-name">Расход топлива</span><span class="spec-value">9.2 л/100км</span></li>
+                        <li><span class="spec-name">Объем багажника</span><span class="spec-value">460 л</span></li>
+                    </ul>
+                </div>
+
+                <div class="car-description">
+                    <h3>Описание от продавца</h3>
+                    <div class="seller-description">
+                        <p>Haval F7 2022 года - современный кроссовер от одного из лидеров китайского автопрома. Автомобиль пригнан из Китая, имеет минимальный пробег и находится в идеальном состоянии.</p>
+                        <p>Богатая комплектация включает: кожаную отделку салона, панорамную крышу, адаптивный круиз-контроль, систему мониторинга слепых зон, камеру 360°, беспроводную зарядку, подогрев всех сидений и руля, а также множество других современных опций.</p>
+                        <p>Пробег всего 9 000 км - автомобиль практически новый. Все системы работают безупречно. Гарантия от официального дилера еще действует.</p>
+                        <p>Haval F7 предлагает просторный салон, высокий уровень комфорта и современные технологии по доступной цене. Отличный выбор для семьи и активного образа жизни.</p>
+                    </div>
+
+                    <div class="car-contact">
+                        <a href="#contacts" class="btn">Заказать этот автомобиль</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Добавлены страницы для других автомобилей (Chery Tiggo 8 Pro, Haval Jolion, Geely Coolray) -->
+    <!-- Код для этих страниц аналогичен приведенным выше -->
+</div>
+
+<!-- Footer -->
+<footer id="contacts">
+    <div class="container">
+        <div class="footer-content">
+            <div class="footer-column">
+                <h3>Контакты</h3>
+                <div class="contact-name">Дмитрий</div>
+                <div class="contact-phone">+7 (900) 987-65-43</div>
+                <p>г. Воронеж</p>
+                <p>Ежедневно с 9:00 до 20:00</p>
+            </div>
+
+            <div class="footer-column">
+                <h3>Услуги</h3>
+                <ul>
+                    <li><a href="#">Подбор автомобиля</a></li>
+                    <li><a href="#">Доставка из-за границы</a></li>
+                    <li><a href="#">Растаможка автомобилей</a></li>
+                    <li><a href="#">Технический осмотр</a></li>
+                    <li><a href="#">Оформление документов</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-column">
+                <h3>Популярные марки</h3>
+                <ul>
+                    <li><a href="#">Chery</a></li>
+                    <li><a href="#">Haval</a></li>
+                    <li><a href="#">Geely</a></li>
+                    <li><a href="#">Toyota</a></li>
+                    <li><a href="#">Kia</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-column">
+                <h3>О компании</h3>
+                <p>VRN AVTO PRO - профессиональный импорт автомобилей из Китая, Японии и Кореи. Работаем с 2018 года.</p>
+                <p>Гарантия качества, полное сопровождение и лучшие цены на рынке.</p>
+            </div>
+        </div>
+
+        <div class="copyright">
+            <p>&copy; 2023 VRN AVTO PRO. Все права защищены.</p>
+        </div>
+    </div>
+</footer>
+
+<script>
+    // Функции для переключения между главной страницей и детальными страницами автомобилей
+    function showCarDetail(carId) {
+        document.getElementById('main-content').style.display = 'none';
+        document.getElementById(carId).style.display = 'block';
+        window.scrollTo(0, 0);
+    }
+
+    function hideCarDetail() {
+        document.getElementById('main-content').style.display = 'block';
+        const carPages = document.querySelectorAll('.car-detail-page');
+        carPages.forEach(page => {
+            page.style.display = 'none';
+        });
+    }
+
+    // Функция для смены главного изображения в галерее
+    function changeMainImage(src, mainImgId) {
+        document.getElementById(mainImgId).src = src;
+    }
+
+    // Калькулятор стоимости
+    document.getElementById('calculateBtn').addEventListener('click', function() {
+        const carPrice = parseFloat(document.getElementById('carPrice').value);
+        const country = document.getElementById('country').value;
+        const engineType = document.getElementById('engineType').value;
+
+        if (isNaN(carPrice) || carPrice <= 0) {
+            alert('Пожалуйста, введите корректную стоимость автомобиля');
+            return;
+        }
+
+        // Коэффициенты для расчета (условные)
+        let deliveryCost = 0;
+        let customsCost = 0;
+
+        // Расчет стоимости доставки в зависимости от страны
+        switch(country) {
+            case 'china':
+                deliveryCost = 150000;
+                break;
+            case 'japan':
+                deliveryCost = 180000;
+                break;
+            case 'korea':
+                deliveryCost = 160000;
+                break;
+        }
+
+        // Расчет таможенной пошлины в зависимости от типа двигателя
+        switch(engineType) {
+            case 'electric':
+                customsCost = carPrice * 0.15;
+                break;
+            case 'petrol1':
+                customsCost = carPrice * 0.25;
+                break;
+            case 'petrol2':
+                customsCost = carPrice * 0.30;
+                break;
+            case 'petrol3':
+                customsCost = carPrice * 0.48;
+                break;
+            case 'diesel':
+                customsCost = carPrice * 0.35;
+                break;
+        }
+
+        // Дополнительные расходы
+        const processingCost = 50000; // Оформление, сертификация и т.д.
+
+        // Итоговая стоимость
+        const totalCost = carPrice + deliveryCost + customsCost + processingCost;
+
+        // Отображение результата
+        document.getElementById('totalCost').textContent = totalCost.toLocaleString('ru-RU') + ' ₽';
+        document.getElementById('result').style.display = 'block';
+    });
+
+    // Плавная прокрутка к якорям
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+            e.preventDefault();
+
+            const targetId = this.getAttribute('href');
+            if (targetId === '#') return;
+
+            const targetElement = document.querySelector(targetId);
+            if (targetElement) {
+                window.scrollTo({
+                    top: targetElement.offsetTop - 100,
+                    behavior: 'smooth'
+                });
+            }
+        });
+    });
+</script>
+</body>
+</html>
