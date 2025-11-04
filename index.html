@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>VRN AVTO PRO - Привоз автомобилей из Китая, Японии и Кореи</title>
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
     <style>
         :root {
             --primary: #1a365d;
@@ -693,56 +694,35 @@
     </section>
 
     <!-- Calculator Section -->
+    <!-- Calculator Section -->
     <section id="calculator" class="container">
         <h2 class="section-title">Калькулятор стоимости</h2>
         <div class="calculator">
             <h2>Рассчитайте стоимость автомобиля под ключ</h2>
             <form id="costCalculator">
                 <div class="form-group">
-                    <label for="carModel">Модель автомобиля</label>
-                    <select id="carModel" class="form-control">
-                        <option value="tiggo8">Chery Tiggo 8 Pro</option>
-                        <option value="jolion">Haval Jolion</option>
-                        <option value="coolray">Geely Coolray</option>
-                        <option value="camry">Toyota Camry</option>
-                        <option value="kia">Kia K5</option>
-                        <option value="other">Другая модель</option>
-                    </select>
+                    <label for="carPrice">Стоимость автомобиля (в юанях ¥)</label>
+                    <input type="number" id="carPrice" class="form-control" placeholder="Введите стоимость в юанях" min="1000" step="1000">
                 </div>
 
                 <div class="form-group">
-                    <label for="carPrice">Стоимость автомобиля (¥, ¥, ₩)</label>
-                    <input type="number" id="carPrice" class="form-control" placeholder="Введите стоимость в валюте страны происхождения">
+                    <label for="engineVolume">Объем двигателя (см³)</label>
+                    <input type="number" id="engineVolume" class="form-control" placeholder="Например: 2000" min="500" max="8000" step="100">
                 </div>
 
                 <div class="form-group">
-                    <label for="country">Страна происхождения</label>
-                    <select id="country" class="form-control">
-                        <option value="china">Китай</option>
-                        <option value="japan">Япония</option>
-                        <option value="korea">Корея</option>
-                    </select>
-                </div>
-
-                <div class="form-group">
-                    <label for="engineType">Тип двигателя</label>
-                    <select id="engineType" class="form-control">
-                        <option value="electric">Электромобиль</option>
-                        <option value="petrol1">Бензин до 1000 см³</option>
-                        <option value="petrol2">Бензин 1000-2000 см³</option>
-                        <option value="petrol3">Бензин 2000-3000 см³</option>
-                        <option value="diesel">Дизель</option>
-                    </select>
+                    <label for="enginePower">Мощность двигателя (л.с.)</label>
+                    <input type="number" id="enginePower" class="form-control" placeholder="Например: 150" min="50" max="1000" step="10">
                 </div>
 
                 <div class="form-group">
                     <label for="year">Год выпуска</label>
-                    <select id="year" class="form-control">
-                        <option value="2023">2023</option>
-                        <option value="2022">2022</option>
-                        <option value="2021">2021</option>
-                        <option value="2020">2020</option>
-                    </select>
+                    <input type="number" id="year" class="form-control"
+                           placeholder="Выберите год"
+                           min="2010"
+                           max="2024"
+                           step="1"
+                           value="2023">
                 </div>
 
                 <button type="button" id="calculateBtn" class="btn" style="width: 100%;">Рассчитать стоимость</button>
@@ -750,12 +730,157 @@
                 <div class="calculator-result" id="result" style="display: none;">
                     <h3>Итоговая стоимость:</h3>
                     <div class="result-value" id="totalCost">0 ₽</div>
-                    <p>В стоимость включены: таможенные пошлины, доставка, растаможка и оформление</p>
+                    <div id="calculationDetails" style="text-align: left; margin: 20px 0;"></div>
+                    <p><strong>+ доставка и оформление</strong></p>
                     <a href="#contacts" class="btn" style="margin-top: 15px;">Заказать этот автомобиль</a>
                 </div>
             </form>
         </div>
     </section>
+
+    <script>
+        // Калькулятор стоимости
+        document.getElementById('calculateBtn').addEventListener('click', function() {
+            const carPrice = parseFloat(document.getElementById('carPrice').value);
+            const engineVolume = parseFloat(document.getElementById('engineVolume').value);
+            const enginePower = parseFloat(document.getElementById('enginePower').value);
+            const year = parseInt(document.getElementById('year').value);
+
+            if (isNaN(carPrice) || carPrice <= 0) {
+                alert('Пожалуйста, введите корректную стоимость автомобиля в юанях');
+                return;
+            }
+
+            if (isNaN(engineVolume) || engineVolume <= 0) {
+                alert('Пожалуйста, введите корректный объем двигателя');
+                return;
+            }
+
+            if (isNaN(enginePower) || enginePower <= 0) {
+                alert('Пожалуйста, введите корректную мощность двигателя');
+                return;
+            }
+
+            if (isNaN(year) || year < 2010 || year > 2024) {
+                alert('Пожалуйста, выберите корректный год выпуска (2010-2024)');
+                return;
+            }
+
+            // Курс юаня к рублю (примерный курс)
+            const exchangeRate = 12.5; // 1 ¥ = 12.5 ₽
+
+            // Конвертация стоимости в рубли
+            const carPriceRub = carPrice * exchangeRate;
+
+            // Расчет таможенной пошлины (ставки для физических лиц)
+            let customsDutyRate = 0;
+            if (engineVolume <= 1000) {
+                customsDutyRate = 0.15; // 15%
+            } else if (engineVolume <= 1500) {
+                customsDutyRate = 0.175; // 17.5%
+            } else if (engineVolume <= 1800) {
+                customsDutyRate = 0.20; // 20%
+            } else if (engineVolume <= 2300) {
+                customsDutyRate = 0.23; // 23%
+            } else if (engineVolume <= 3000) {
+                customsDutyRate = 0.35; // 35%
+            } else {
+                customsDutyRate = 0.48; // 48%
+            }
+
+            const customsDuty = carPriceRub * customsDutyRate;
+
+            // Расчет утилизационного сбора (ставки на 2024 год)
+            let utilizationRate = 0;
+            if (enginePower <= 90) {
+                utilizationRate = 1200; // руб за л.с.
+            } else if (enginePower <= 150) {
+                utilizationRate = 1500; // руб за л.с.
+            } else if (enginePower <= 200) {
+                utilizationRate = 1800; // руб за л.с.
+            } else if (enginePower <= 250) {
+                utilizationRate = 2200; // руб за л.с.
+            } else {
+                utilizationRate = 2800; // руб за л.с.
+            }
+
+            const utilizationFee = enginePower * utilizationRate;
+
+            // НДС (20% от стоимости + пошлина)
+            const vat = (carPriceRub + customsDuty) * 0.20;
+
+            // Таможенные сборы (фиксированные)
+            const customsFee = 7500; // руб
+
+            // Стоимость автомобиля с учетом таможенных платежей
+            const carWithCustoms = carPriceRub + customsDuty + utilizationFee + vat + customsFee;
+
+            // Дополнительные расходы
+            const deliveryCost = 150000; // Доставка из Китая
+            const processingCost = 50000; // Оформление, сертификация
+
+            // Итоговая стоимость
+            const totalCost = carWithCustoms + deliveryCost + processingCost;
+
+            // Формирование деталей расчета
+            const calculationDetails = `
+        <div style="background: #f8f9fa; padding: 15px; border-radius: 5px;">
+            <h4 style="margin-bottom: 10px; color: #1a365d;">Детали расчета:</h4>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+                <div>
+                    <strong>Стоимость авто:</strong><br>
+                    <strong>Таможенная пошлина:</strong><br>
+                    <strong>Утилизационный сбор:</strong><br>
+                    <strong>НДС (20%):</strong><br>
+                    <strong>Таможенные сборы:</strong><br>
+                    <strong>Доставка:</strong><br>
+                    <strong>Оформление:</strong>
+                </div>
+                <div style="text-align: right;">
+                    ${carPriceRub.toLocaleString('ru-RU')} ₽<br>
+                    ${customsDuty.toLocaleString('ru-RU')} ₽<br>
+                    ${utilizationFee.toLocaleString('ru-RU')} ₽<br>
+                    ${vat.toLocaleString('ru-RU')} ₽<br>
+                    ${customsFee.toLocaleString('ru-RU')} ₽<br>
+                    ${deliveryCost.toLocaleString('ru-RU')} ₽<br>
+                    ${processingCost.toLocaleString('ru-RU')} ₽
+                </div>
+            </div>
+            <hr style="margin: 10px 0;">
+            <div style="display: flex; justify-content: space-between; font-weight: bold;">
+                <span>Итого с учетом таможни:</span>
+                <span>${carWithCustoms.toLocaleString('ru-RU')} ₽</span>
+            </div>
+        </div>
+    `;
+
+            // Отображение результата
+            document.getElementById('totalCost').textContent = totalCost.toLocaleString('ru-RU') + ' ₽';
+            document.getElementById('calculationDetails').innerHTML = calculationDetails;
+            document.getElementById('result').style.display = 'block';
+
+            // Прокрутка к результатам
+            document.getElementById('result').scrollIntoView({ behavior: 'smooth' });
+        });
+
+        // Добавляем возможность изменения года колесиком мыши
+        document.getElementById('year').addEventListener('wheel', function(e) {
+            e.preventDefault();
+            const step = 1;
+            if (e.deltaY < 0) {
+                this.stepUp(step);
+            } else {
+                this.stepDown(step);
+            }
+        });
+
+        // Автоматически устанавливаем текущий год
+        document.addEventListener('DOMContentLoaded', function() {
+            const currentYear = new Date().getFullYear();
+            document.getElementById('year').value = currentYear;
+            document.getElementById('year').max = currentYear;
+        });
+    </script>
 </div>
 
 <!-- Car Detail Pages -->
@@ -970,7 +1095,7 @@
             <div class="footer-column">
                 <h3>Контакты</h3>
                 <div class="contact-name">Дмитрий</div>
-                <div class="contact-phone">+7 (900) 987-65-43</div>
+                <div class="contact-phone">+7 950 767 76 70 </div>
                 <p>г. Воронеж</p>
                 <p>Ежедневно с 9:00 до 20:00</p>
             </div>
@@ -1005,7 +1130,7 @@
         </div>
 
         <div class="copyright">
-            <p>&copy; 2023 VRN AVTO PRO. Все права защищены.</p>
+            <p>&copy; 2025 VRN AVTO PRO. Все права защищены.</p>
         </div>
     </div>
 </footer>
