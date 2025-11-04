@@ -1,0 +1,24 @@
+# Установите поведение по умолчанию
+* text=auto
+
+# Явно объявите текстовые файлы, которые вы хотите всегда нормализовать и преобразовать
+*.html text
+*.css text
+*.js text
+*.md text
+*.txt text
+
+# Объявите файлы, которые всегда будут CRLF
+*.bat text eol=crlf
+
+# Объявите файлы, которые всегда будут LF
+*.sh text eol=lf
+
+# Бинарные файлы
+*.jpg binary
+*.jpeg binary
+*.png binary
+*.gif binary
+*.mp4 binary
+*.ico binary
+*.pdf binary
