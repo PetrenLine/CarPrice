@@ -629,71 +629,6 @@
         </div>
     </section>
 
-    <!-- Cars Section -->
-    <section id="cars" class="container">
-        <h2 class="section-title">Популярные модели</h2>
-        <p class="section-subtitle">Под заказ из Китая, Японии и Кореи</p>
-        <div class="cars-grid">
-            <!-- Car 1 -->
-            <div class="car-card" onclick="showCarDetail('chery-tiggo8')">
-                <img src="car1.jpg" alt="Chery Tiggo 8 Pro" class="car-image">
-                <div class="car-info">
-                    <h3 class="car-title">Chery Tiggo 8 Pro</h3>
-                    <div class="car-price">от 3 450 000 ₽</div>
-                    <ul class="car-features">
-                        <li>Двигатель: 1.6L Turbo (197 л.с.)</li>
-                        <li>Коробка: 7-ст. робот</li>
-                        <li>Привод: полный</li>
-                        <li>Год: 2023</li>
-                    </ul>
-                    <div class="car-actions">
-                        <a href="#contacts" class="btn">Заказать</a>
-                        <button class="btn btn-secondary">Подробнее</button>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Car 2 -->
-            <div class="car-card" onclick="showCarDetail('haval-jolion')">
-                <img src="car2.jpg" alt="Haval Jolion" class="car-image">
-                <div class="car-info">
-                    <h3 class="car-title">Haval Jolion</h3>
-                    <div class="car-price">от 2 150 000 ₽</div>
-                    <ul class="car-features">
-                        <li>Двигатель: 1.5L Turbo (150 л.с.)</li>
-                        <li>Коробка: вариатор</li>
-                        <li>Привод: передний</li>
-                        <li>Год: 2023</li>
-                    </ul>
-                    <div class="car-actions">
-                        <a href="#contacts" class="btn">Заказать</a>
-                        <button class="btn btn-secondary">Подробнее</button>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Car 3 -->
-            <div class="car-card" onclick="showCarDetail('geely-coolray')">
-                <img src="car3.jpg" alt="Geely Coolray" class="car-image">
-                <div class="car-info">
-                    <h3 class="car-title">Geely Coolray</h3>
-                    <div class="car-price">от 2 350 000 ₽</div>
-                    <ul class="car-features">
-                        <li>Двигатель: 1.5L Turbo (177 л.с.)</li>
-                        <li>Коробка: 7-ст. робот</li>
-                        <li>Привод: передний</li>
-                        <li>Год: 2023</li>
-                    </ul>
-                    <div class="car-actions">
-                        <a href="#contacts" class="btn">Заказать</a>
-                        <button class="btn btn-secondary">Подробнее</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Calculator Section -->
     <!-- Calculator Section -->
     <section id="calculator" class="container">
         <h2 class="section-title">Калькулятор стоимости</h2>
@@ -701,8 +636,27 @@
             <h2>Рассчитайте стоимость автомобиля под ключ</h2>
             <form id="costCalculator">
                 <div class="form-group">
-                    <label for="carPrice">Стоимость автомобиля (в юанях ¥)</label>
+                    <label for="currency">Валюта стоимости автомобиля</label>
+                    <select id="currency" class="form-control">
+                        <option value="cny">Китайский юань (CNY)</option>
+                        <option value="krw">Корейская вона (KRW)</option>
+                        <option value="jpy">Японская иена (JPY)</option>
+                        <option value="rub">Российский рубль (RUB)</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="carPrice" id="carPriceLabel">Стоимость автомобиля (в юанях ¥)</label>
                     <input type="number" id="carPrice" class="form-control" placeholder="Введите стоимость в юанях" min="1000" step="1000">
+                </div>
+
+                <div class="form-group">
+                    <label for="country">Страна происхождения</label>
+                    <select id="country" class="form-control">
+                        <option value="china">Китай</option>
+                        <option value="korea">Корея</option>
+                        <option value="japan">Япония</option>
+                    </select>
                 </div>
 
                 <div class="form-group">
@@ -720,9 +674,9 @@
                     <input type="number" id="year" class="form-control"
                            placeholder="Выберите год"
                            min="2010"
-                           max="2024"
+                           max="2025"
                            step="1"
-                           value="2023">
+                           value="2024">
                 </div>
 
                 <button type="button" id="calculateBtn" class="btn" style="width: 100%;">Рассчитать стоимость</button>
@@ -739,15 +693,57 @@
     </section>
 
     <script>
+        // Обновление подписи поля ввода при изменении валюты
+        document.getElementById('currency').addEventListener('change', function() {
+            const currencyLabels = {
+                'cny': 'Стоимость автомобиля (в юанях ¥)',
+                'krw': 'Стоимость автомобиля (в вонах ₩)',
+                'jpy': 'Стоимость автомобиля (в иенах ¥)',
+                'rub': 'Стоимость автомобиля (в рублях ₽)'
+            };
+            document.getElementById('carPriceLabel').textContent = currencyLabels[this.value];
+
+            // Обновляем плейсхолдер
+            const placeholders = {
+                'cny': 'Введите стоимость в юанях',
+                'krw': 'Введите стоимость в вонах',
+                'jpy': 'Введите стоимость в иенах',
+                'rub': 'Введите стоимость в рублях'
+            };
+            document.getElementById('carPrice').placeholder = placeholders[this.value];
+        });
+
+        // Синхронизация страны происхождения с валютой
+        document.getElementById('currency').addEventListener('change', function() {
+            const currencyToCountry = {
+                'cny': 'china',
+                'krw': 'korea',
+                'jpy': 'japan',
+                'rub': 'china' // по умолчанию Китай для рубля
+            };
+            document.getElementById('country').value = currencyToCountry[this.value];
+        });
+
+        document.getElementById('country').addEventListener('change', function() {
+            const countryToCurrency = {
+                'china': 'cny',
+                'korea': 'krw',
+                'japan': 'jpy'
+            };
+            document.getElementById('currency').value = countryToCurrency[this.value];
+        });
+
         // Калькулятор стоимости
         document.getElementById('calculateBtn').addEventListener('click', function() {
             const carPrice = parseFloat(document.getElementById('carPrice').value);
+            const currency = document.getElementById('currency').value;
+            const country = document.getElementById('country').value;
             const engineVolume = parseFloat(document.getElementById('engineVolume').value);
             const enginePower = parseFloat(document.getElementById('enginePower').value);
             const year = parseInt(document.getElementById('year').value);
 
             if (isNaN(carPrice) || carPrice <= 0) {
-                alert('Пожалуйста, введите корректную стоимость автомобиля в юанях');
+                alert('Пожалуйста, введите корректную стоимость автомобиля');
                 return;
             }
 
@@ -761,16 +757,21 @@
                 return;
             }
 
-            if (isNaN(year) || year < 2010 || year > 2024) {
-                alert('Пожалуйста, выберите корректный год выпуска (2010-2024)');
+            if (isNaN(year) || year < 2010 || year > 2025) {
+                alert('Пожалуйста, выберите корректный год выпуска (2010-2025)');
                 return;
             }
 
-            // Курс юаня к рублю (примерный курс)
-            const exchangeRate = 12.5; // 1 ¥ = 12.5 ₽
+            // Курсы валют к рублю (примерные курсы)
+            const exchangeRates = {
+                'cny': 12.5,  // 1 CNY = 12.5 RUB
+                'krw': 0.067, // 1 KRW = 0.067 RUB (1000 KRW = 67 RUB)
+                'jpy': 0.59,  // 1 JPY = 0.59 RUB (100 JPY = 59 RUB)
+                'rub': 1      // 1 RUB = 1 RUB
+            };
 
             // Конвертация стоимости в рубли
-            const carPriceRub = carPrice * exchangeRate;
+            const carPriceRub = carPrice * exchangeRates[currency];
 
             // Расчет таможенной пошлины (ставки для физических лиц)
             let customsDutyRate = 0;
@@ -815,44 +816,72 @@
             // Стоимость автомобиля с учетом таможенных платежей
             const carWithCustoms = carPriceRub + customsDuty + utilizationFee + vat + customsFee;
 
-            // Дополнительные расходы
-            const deliveryCost = 150000; // Доставка из Китая
+            // Стоимость доставки в зависимости от страны
+            const deliveryCosts = {
+                'china': 150000, // Доставка из Китая
+                'korea': 160000, // Доставка из Кореи
+                'japan': 180000  // Доставка из Японии
+            };
+
+            const deliveryCost = deliveryCosts[country];
             const processingCost = 50000; // Оформление, сертификация
 
             // Итоговая стоимость
             const totalCost = carWithCustoms + deliveryCost + processingCost;
 
             // Формирование деталей расчета
+            const currencySymbols = {
+                'cny': '¥',
+                'krw': '₩',
+                'jpy': '¥',
+                'rub': '₽'
+            };
+
+            const currencyNames = {
+                'cny': 'юанях',
+                'krw': 'вонах',
+                'jpy': 'иенах',
+                'rub': 'рублях'
+            };
+
             const calculationDetails = `
-        <div style="background: #f8f9fa; padding: 15px; border-radius: 5px;">
-            <h4 style="margin-bottom: 10px; color: #1a365d;">Детали расчета:</h4>
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
-                <div>
-                    <strong>Стоимость авто:</strong><br>
-                    <strong>Таможенная пошлина:</strong><br>
-                    <strong>Утилизационный сбор:</strong><br>
-                    <strong>НДС (20%):</strong><br>
-                    <strong>Таможенные сборы:</strong><br>
-                    <strong>Доставка:</strong><br>
-                    <strong>Оформление:</strong>
+            <div style="background: #f8f9fa; padding: 15px; border-radius: 5px;">
+                <h4 style="margin-bottom: 10px; color: #1a365d;">Детали расчета:</h4>
+                <div style="margin-bottom: 10px;">
+                    <strong>Исходные данные:</strong><br>
+                    Стоимость авто: ${carPrice.toLocaleString('ru-RU')} ${currencySymbols[currency]} (в ${currencyNames[currency]})<br>
+                    Страна: ${country === 'china' ? 'Китай' : country === 'korea' ? 'Корея' : 'Япония'}<br>
+                    Объем двигателя: ${engineVolume.toLocaleString('ru-RU')} см³<br>
+                    Мощность: ${enginePower.toLocaleString('ru-RU')} л.с.<br>
+                    Год выпуска: ${year}
                 </div>
-                <div style="text-align: right;">
-                    ${carPriceRub.toLocaleString('ru-RU')} ₽<br>
-                    ${customsDuty.toLocaleString('ru-RU')} ₽<br>
-                    ${utilizationFee.toLocaleString('ru-RU')} ₽<br>
-                    ${vat.toLocaleString('ru-RU')} ₽<br>
-                    ${customsFee.toLocaleString('ru-RU')} ₽<br>
-                    ${deliveryCost.toLocaleString('ru-RU')} ₽<br>
-                    ${processingCost.toLocaleString('ru-RU')} ₽
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+                    <div>
+                        <strong>Стоимость авто в рублях:</strong><br>
+                        <strong>Таможенная пошлина:</strong><br>
+                        <strong>Утилизационный сбор:</strong><br>
+                        <strong>НДС (20%):</strong><br>
+                        <strong>Таможенные сборы:</strong><br>
+                        <strong>Доставка:</strong><br>
+                        <strong>Оформление:</strong>
+                    </div>
+                    <div style="text-align: right;">
+                        ${carPriceRub.toLocaleString('ru-RU')} ₽<br>
+                        ${customsDuty.toLocaleString('ru-RU')} ₽<br>
+                        ${utilizationFee.toLocaleString('ru-RU')} ₽<br>
+                        ${vat.toLocaleString('ru-RU')} ₽<br>
+                        ${customsFee.toLocaleString('ru-RU')} ₽<br>
+                        ${deliveryCost.toLocaleString('ru-RU')} ₽<br>
+                        ${processingCost.toLocaleString('ru-RU')} ₽
+                    </div>
+                </div>
+                <hr style="margin: 10px 0;">
+                <div style="display: flex; justify-content: space-between; font-weight: bold;">
+                    <span>Итого с учетом таможни:</span>
+                    <span>${carWithCustoms.toLocaleString('ru-RU')} ₽</span>
                 </div>
             </div>
-            <hr style="margin: 10px 0;">
-            <div style="display: flex; justify-content: space-between; font-weight: bold;">
-                <span>Итого с учетом таможни:</span>
-                <span>${carWithCustoms.toLocaleString('ru-RU')} ₽</span>
-            </div>
-        </div>
-    `;
+        `;
 
             // Отображение результата
             document.getElementById('totalCost').textContent = totalCost.toLocaleString('ru-RU') + ' ₽';
